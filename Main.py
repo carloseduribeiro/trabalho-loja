@@ -1,17 +1,80 @@
 import Produtos
 
+
+def listar_vendas():
+    print("Iimprimir vendas")
+
+
+def form_nova_venda():
+    print("Form nova venda")
+
+
+def listar_clientes():
+    print("Imprimir clientes")
+
+
+def form_cadastro_cliente():
+    print("Form cadastro clientes")
+
+
+def listar_produtos():
+    print("Imprimir Produtos")
+
+
+def form_cadastro_produtos():
+    produto = Produtos.Produto()
+    try:
+        nome_produto = input("Digite nome produto: ")
+        preco_produto = input("Digite preço produto: ")
+        produto.Cadastrar(nome_produto, preco_produto)
+    except Exception as e:
+        print("Erro: " + str(e))
+        print("Produto não cadastrado!")
+
+
+def listar_categorias():
+    print("Exibir categorias")
+
+
 menu = 0
 
 while menu != 9:
-    menu = input("Digite opção: \n"
-                 "1 - Cadastrar Produtos:\n")
+    print("""
+============ LOJA ============
+1 - Hisórico de Vendas
+2 - Nova Venda
+3 - Clientes Cadastrados
+4 - Cadastrar Cliente
+5 - Produtos Cadastrados
+6 - Cadastrar Produtos
+7 - Categorias
+0 - Sair
+==============================""")
+    menu = input("Digite opção: ")
 
-    # Cadastro de produtos #
-    if menu == "1":
-        produto = Produtos.Produto()
-        try:
-            nomeProduto = input("Digite nome produto:\n")
-            precoProduto = input("Digite preço produto:\n")
-            produto.Cadastrar(nomeProduto, precoProduto)
-        except Exception as e:
-            print(e)
+    try:
+        menu = int(menu)
+
+        if menu == 1:
+            listar_vendas()
+        elif menu == 2:
+            form_nova_venda()
+        elif menu == 3:
+            listar_clientes()
+        elif menu == 4:
+            form_cadastro_cliente()
+        elif menu == 5:
+            listar_produtos()
+        elif menu == 6:
+            form_cadastro_produtos()
+        elif menu == 7:
+            listar_categorias()
+        elif menu < 0 or menu > 7:
+            print("Opção não existe! Tente novamente.")
+        else:
+            break
+
+    except ValueError:
+        print("Opção não existe! Tente novamente.")
+
+print("Programa encerrado...")
