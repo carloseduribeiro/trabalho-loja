@@ -1,0 +1,2 @@
+1;Frutas
+2;Verduras

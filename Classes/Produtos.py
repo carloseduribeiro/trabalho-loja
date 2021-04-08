@@ -2,24 +2,26 @@ class Produtos:
     codProduto = int
     nomeProduto = str
     preccProduto = float
+    codCategoria = int
 
-    def __init__(self, codProduto="0", nomeProduto="", precoProduto="0"):
+    def __init__(self, codProduto="0", nomeProduto="", precoProduto="0", codCategoria = 0):
         self.codProduto = codProduto
         self.nomeProduto = nomeProduto
         self.precoProduto = precoProduto
 
     @staticmethod
     def listar():
-        print("Cod | Descricao | Preco")
+        print("Cod | Descricao | Categoria | Preco")
         with open("banco/produtos.txt", "r") as produtos:
             for line in produtos:
                 print(tuple(line.strip().split(",")))
 
     def cadastrar(self):
-        if self.codProduto.isdigit() and self.nomeProduto.isalpha() and self.precoProduto.isdigit():
+        if self.codProduto.isdigit() and self.nomeProduto.isalpha() and self.precoProduto.isdigit() and self.codCategoria.isdigit():
             with open("banco/produtos.txt", "a") as produtos:
                 produtos.write(self.codProduto + ", ")
                 produtos.write(self.nomeProduto + ", ")
+                produtos.write(self.codCategoria + ", ")
                 produtos.write(self.precoProduto + " R$\n")
         else:
             raise Exception("Favor digitar campos válidos !")
@@ -33,4 +35,4 @@ class Produtos:
                     if line.split(",")[0] != str(self.codProduto):
                         produtos.write(line)
         else:
-            raise Exception("Favor digitar um código válido")
+            raise Exception("Favor digitar um código válido !")

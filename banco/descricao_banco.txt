@@ -20,3 +20,6 @@ cartao		numero;senha;validade;saldo
 
 vendas		cod;codcarrinho
 carrinho	cod;codproduto;qtd
+
+
+se digitar algo que n existe salva como nullo
