@@ -1,0 +1,22 @@
+
+produtos
+	produto.txt
+	categoria.txt
+
+clientes
+	cliente.txt
+	cartao.txt
+
+vendas
+	historico.txt
+	carrinho.txt
+	
+
+produto		cod;nome;preco;codcategoria
+categoria	cod;nome
+
+cliente		cpf;nome;idade
+cartao		numero;senha;validade;saldo
+
+vendas		cod;codcarrinho
+carrinho	cod;codproduto;qtd
