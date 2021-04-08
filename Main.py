@@ -80,9 +80,11 @@ def form_cadastro_produtos():
         print("Produto não cadastrado !")
 
 def listar_categorias():
-    print("Exibir categorias")
+    print("========= CATEGORIAS =========")
+    print(f"{'Id:':<4}\t")
     for i in Categorias.listar():
-        print(i)
+        print(f"")
+    print("==============================")
 
 menu = 0
 
