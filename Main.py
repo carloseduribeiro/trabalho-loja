@@ -1,5 +1,4 @@
-import Produtos
-
+from Classes.Produtos import Produtos
 
 def listar_vendas():
     print("Iimprimir vendas")
@@ -19,18 +18,21 @@ def form_cadastro_cliente():
 
 def listar_produtos():
     print("Imprimir Produtos")
-
+    try:
+        Produtos.listar()
+    except Exception as e:
+        print("Erro" + str(e))
+        print("Não foi possível listar")
 
 def form_cadastro_produtos():
-    produto = Produtos.Produto()
     try:
         nome_produto = input("Digite nome produto: ")
         preco_produto = input("Digite preço produto: ")
-        produto.Cadastrar(nome_produto, preco_produto)
+        Produtos.Cadastrar(nome_produto, preco_produto)
+
     except Exception as e:
         print("Erro: " + str(e))
         print("Produto não cadastrado!")
-
 
 def listar_categorias():
     print("Exibir categorias")
