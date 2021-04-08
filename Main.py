@@ -1,19 +1,45 @@
 from Classes.Produtos import Produtos
+from Classes.Categorias import Categorias
+from Classes.Clientes import Clientes
 
 def listar_vendas():
     print("Iimprimir vendas")
 
-
 def form_nova_venda():
     print("Form nova venda")
 
-
 def listar_clientes():
     print("Imprimir clientes")
-
+    clientes = Clientes()
+    try:
+        clientes.listar()
+    except Exception as e:
+        print("Erro: " + str(e))
+        print("Não foi possível listar os clientes !")
 
 def form_cadastro_cliente():
     print("Form cadastro clientes")
+    clientes = Clientes()
+    try:
+        clientes.nomeCliente = input("Digite o nome: ")
+        clientes.CPFCliente = input("Digite o CPF: ")
+        clientes.idadeCliente = input("Digite a idade: ")
+        clientes.cadastrar()
+    except Exception as e:
+        print("Erro: " + str(e))
+        print("Não foi possível cadastrar os clientes !")
+
+def deletar_clientes():
+    print("Deletar clientes")
+    clientes = Clientes()
+    try:
+        clientes.nomeCliente = input("Digite o nome: ")
+        clientes.CPFCliente = input("Digite o CPF: ")
+        clientes.idadeCliente = input("Digite a idade: ")
+        clientes.deletar()
+    except Exception as e:
+        print("Erro: " + str(e))
+        print("Não foi possível deletar os clientes !")
 
 def deletar_produtos():
     print("Deletar Produtos")
@@ -36,17 +62,27 @@ def listar_produtos():
 
 def form_cadastro_produtos():
     produtos = Produtos()
+    listaCategorias = Categorias.listar()
     try:
-        produtos.codProduto = input("Digite o codigo do produto: ")
-        produtos.nomeProduto = input("Digite nome produto: ")
-        produtos.precoProduto = input("Digite preço produto: ")
-        produtos.cadastrar()
+        print(listaCategorias)
+        print("Favor Selecionar uma categoria: ")
+        produtos.codCategoria = input("Digite o código da categoria: ")
+        for line in listaCategorias:
+            if produtos.codCategoria in str(line).split(",")[0]:
+                produtos.codProduto = input("Digite o codigo do produto: ")
+                produtos.nomeProduto = input("Digite nome produto: ")
+                produtos.precoProduto = input("Digite preço produto: ")
+                produtos.cadastrar()
+            else:
+                raise Exception("Código categoria nao encontrado !")
     except Exception as e:
         print("Erro: " + str(e))
-        print("Produto não cadastrado!")
+        print("Produto não cadastrado !")
 
 def listar_categorias():
     print("Exibir categorias")
+    for i in Categorias.listar():
+        print(i)
 
 menu = 0
 
