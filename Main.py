@@ -3,9 +3,15 @@ import Produtos
 menu = 0
 
 while menu != 9:
-    menu = input("Digite opção: "
-                 "1 - Categorias")
+    menu = input("Digite opção: \n"
+                 "1 - Cadastrar Produtos:\n")
 
-    if menu == 1:
+    # Cadastro de produtos #
+    if menu == "1":
         produto = Produtos.Produto()
-        produto.Cadastrar()
+        try:
+            nomeProduto = input("Digite nome produto:\n")
+            precoProduto = input("Digite preço produto:\n")
+            produto.Cadastrar(nomeProduto, precoProduto)
+        except Exception as e:
+            print(e)
