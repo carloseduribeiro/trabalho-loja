@@ -15,28 +15,38 @@ def listar_clientes():
 def form_cadastro_cliente():
     print("Form cadastro clientes")
 
+def deletar_produtos():
+    print("Deletar Produtos")
+    produtos = Produtos()
+    try:
+        produtos.codProduto = input("Digite o código do produto: ")
+        produtos.deletar()
+    except Exception as e:
+        print("Erro: " + str(e))
+        print("Não foi possível excluir o produto!")
 
 def listar_produtos():
     print("Imprimir Produtos")
+    produtos = Produtos()
     try:
-        Produtos.listar()
+        produtos.listar()
     except Exception as e:
-        print("Erro" + str(e))
-        print("Não foi possível listar")
+        print("Erro: " + str(e))
+        print("Não foi possível listar!")
 
 def form_cadastro_produtos():
+    produtos = Produtos()
     try:
-        nome_produto = input("Digite nome produto: ")
-        preco_produto = input("Digite preço produto: ")
-        Produtos.Cadastrar(nome_produto, preco_produto)
-
+        produtos.codProduto = input("Digite o codigo do produto: ")
+        produtos.nomeProduto = input("Digite nome produto: ")
+        produtos.precoProduto = input("Digite preço produto: ")
+        produtos.cadastrar()
     except Exception as e:
         print("Erro: " + str(e))
         print("Produto não cadastrado!")
 
 def listar_categorias():
     print("Exibir categorias")
-
 
 menu = 0
 
@@ -71,8 +81,10 @@ while menu != 9:
             form_cadastro_produtos()
         elif menu == 7:
             listar_categorias()
-        elif menu < 0 or menu > 7:
-            print("Opção não existe! Tente novamente.")
+        elif menu == 99:
+            deletar_produtos()
+        # elif menu < 0 or menu > 7:
+        #     print("Opção não existe! Tente novamente.")
         else:
             break
 

@@ -1,2 +1,9 @@
-bla,10
-blu,20
+1,banana,2
+2,banana,2
+3,banana,2
+4,banana,2
+6,banana,2
+7,banana,2
+8,banana,2
+
+
