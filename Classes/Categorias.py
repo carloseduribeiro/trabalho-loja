@@ -1,6 +1,6 @@
 # coding: latin-1
 
-class Categoria:
+class Categorias:
 
     codigo = int
     nome = str

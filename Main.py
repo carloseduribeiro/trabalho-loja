@@ -21,6 +21,7 @@ def form_cadastro_cliente():
     print("Form cadastro clientes")
     clientes = Clientes()
     try:
+        clientes.codCliente = input("Digite o código do cliente: ")
         clientes.nomeCliente = input("Digite o nome: ")
         clientes.CPFCliente = input("Digite o CPF: ")
         clientes.idadeCliente = input("Digite a idade: ")
@@ -33,9 +34,7 @@ def deletar_clientes():
     print("Deletar clientes")
     clientes = Clientes()
     try:
-        clientes.nomeCliente = input("Digite o nome: ")
-        clientes.CPFCliente = input("Digite o CPF: ")
-        clientes.idadeCliente = input("Digite a idade: ")
+        clientes.codCliente = input("Digite o código do cliente: ")
         clientes.deletar()
     except Exception as e:
         print("Erro: " + str(e))
@@ -119,6 +118,8 @@ while menu != 9:
             listar_categorias()
         elif menu == 99:
             deletar_produtos()
+        elif menu == 98:
+            deletar_clientes()
         # elif menu < 0 or menu > 7:
         #     print("Opção não existe! Tente novamente.")
         else:
