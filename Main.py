@@ -94,7 +94,7 @@ def listar_categorias():
     nomes_categoria = []
     while opcao != 9:
         # Imprime as categorias cadastradas:
-        print(f"{' CATEGORIAS ':=^30}")
+        print(f"\n{' CATEGORIAS ':=^30}")
         print(f"{'Id:':<4}\t{'Nome:'}")
         for cat in Categorias.listar():
             print(f"{cat[0]:<4}\t{cat[1]}")
@@ -105,6 +105,7 @@ def listar_categorias():
               "Escolha uma opção:\n" +
               "1 - Apagar\n" +
               "2 - Cadastrar\n" +
+              "3 - Editar\n" +
               "0 - Sair")
 
         try:
@@ -114,18 +115,21 @@ def listar_categorias():
                 try:
                     # Apaga a categoria selecionada:
                     id_categoria = int(input("Insira o id: "))
+                    print(f"{'':=^30}")
+
                     if id_categoria in ids:
                         if Categorias('', id_categoria).apagar():
                             print("Categoria APAGADA com sucesso!")
                         else:
                             print("Categoria NÃO apagada.")
+                    else:
+                        print("Id não existe! Tente novamente.")
                 except ValueError:
                     print("Id não existe! Tente novamente.")
-                print(f"{'':=^30}\n")
 
             elif opcao == 2:
                 # Cadastra uma nova categoria:
-                print(f"{' NOVA CATEGORIA ':=^30}")
+                print(f"\n{' NOVA CATEGORIA ':=^30}")
                 nome_categoria = input("Insira o nome: ")
                 print(f"{'':=^30}")
 
@@ -137,7 +141,23 @@ def listar_categorias():
                     print("Categoria NÃO cadastrada!")
                     print("Categoria já existe.\n")
 
-            elif opcao < 0 or opcao > 2:
+            elif opcao == 3:
+                # Edita uma categoria existente:
+                print(f"\n{' EDITAR CATEGORIA ':=^30}")
+                try:
+                    id_categoria = int(input("Insira o id: "))
+                    print(f"{'':=^30}")
+
+                    if id_categoria in ids:
+                        nome_categoria = input("Insira o novo nome: ")
+                        # Salva as alterações
+                        Categorias(nome_categoria, id_categoria).salvar()
+                    else:
+                        print("Id não existe! Tente novamente.")
+                except ValueError:
+                    print("Id inserido não existe!")
+
+            elif opcao < 0 or opcao > 3:
                 print("Opção não existe! Tente novamente.")
 
             else:
