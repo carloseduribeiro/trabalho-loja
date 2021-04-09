@@ -2,11 +2,14 @@ from Classes.Produtos import Produtos
 from Classes.Categorias import Categorias
 from Classes.Clientes import Clientes
 
+
 def listar_vendas():
     print("Iimprimir vendas")
 
+
 def form_nova_venda():
     print("Form nova venda")
+
 
 def listar_clientes():
     print("Imprimir clientes")
@@ -16,6 +19,7 @@ def listar_clientes():
     except Exception as e:
         print("Erro: " + str(e))
         print("Não foi possível listar os clientes !")
+
 
 def form_cadastro_cliente():
     print("Form cadastro clientes")
@@ -30,6 +34,7 @@ def form_cadastro_cliente():
         print("Erro: " + str(e))
         print("Não foi possível cadastrar os clientes !")
 
+
 def deletar_clientes():
     print("Deletar clientes")
     clientes = Clientes()
@@ -39,6 +44,7 @@ def deletar_clientes():
     except Exception as e:
         print("Erro: " + str(e))
         print("Não foi possível deletar os clientes !")
+
 
 def deletar_produtos():
     print("Deletar Produtos")
@@ -50,6 +56,7 @@ def deletar_produtos():
         print("Erro: " + str(e))
         print("Não foi possível excluir o produto!")
 
+
 def listar_produtos():
     print("Imprimir Produtos")
     produtos = Produtos()
@@ -58,6 +65,7 @@ def listar_produtos():
     except Exception as e:
         print("Erro: " + str(e))
         print("Não foi possível listar!")
+
 
 def form_cadastro_produtos():
     produtos = Produtos()
@@ -78,13 +86,67 @@ def form_cadastro_produtos():
         print("Erro: " + str(e))
         print("Produto não cadastrado !")
 
-def listar_categorias():
-    print("========= CATEGORIAS =========")
-    print(f"{'Id:':<4}\t")
-    for i in Categorias.listar():
-        print(f"")
-    print("==============================")
 
+def listar_categorias():
+    opcao = 0
+    # Armazena a lista de ids e nomes das categorias cadastradas:
+    ids = []
+    nomes_categoria = []
+    while opcao != 9:
+        # Imprime as categorias cadastradas:
+        print(f"{' CATEGORIAS ':=^30}")
+        print(f"{'Id:':<4}\t{'Nome:'}")
+        for cat in Categorias.listar():
+            print(f"{cat[0]:<4}\t{cat[1]}")
+            ids.append(int(cat[0]))
+            nomes_categoria.append(cat[1])
+        # Imprime o menu:
+        print(f"{'':=^30}\n" +
+              "Escolha uma opção:\n" +
+              "1 - Apagar\n" +
+              "2 - Cadastrar\n" +
+              "0 - Sair")
+
+        try:
+            opcao = int(input("Digite: "))
+
+            if opcao == 1:
+                try:
+                    # Apaga a categoria selecionada:
+                    id_categoria = int(input("Insira o id: "))
+                    if id_categoria in ids:
+                        if Categorias('', id_categoria).apagar():
+                            print("Categoria APAGADA com sucesso!")
+                        else:
+                            print("Categoria NÃO apagada.")
+                except ValueError:
+                    print("Id não existe! Tente novamente.")
+                print(f"{'':=^30}\n")
+
+            elif opcao == 2:
+                # Cadastra uma nova categoria:
+                print(f"{' NOVA CATEGORIA ':=^30}")
+                nome_categoria = input("Insira o nome: ")
+                print(f"{'':=^30}")
+
+                # Verifica se já existe uma categoria com o mesmo nome:
+                if nome_categoria not in nomes_categoria:
+                    Categorias(nome_categoria).salvar()
+                    print("Categoria cadastrada.")
+                else:
+                    print("Categoria NÃO cadastrada!")
+                    print("Categoria já existe.\n")
+
+            elif opcao < 0 or opcao > 2:
+                print("Opção não existe! Tente novamente.")
+
+            else:
+                break
+        except ValueError:
+            print("Opção não existe! Tente novamente.")
+
+
+# MENU PRINCIPAL:
 menu = 0
 
 while menu != 9:
@@ -126,7 +188,6 @@ while menu != 9:
         #     print("Opção não existe! Tente novamente.")
         else:
             break
-
     except ValueError:
         print("Opção não existe! Tente novamente.")
 
