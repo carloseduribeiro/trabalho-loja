@@ -6,20 +6,34 @@ from Classes.Clientes import Clientes
 def listar_vendas():
     print("Iimprimir vendas")
 
-
 def form_nova_venda():
     print("Form nova venda")
 
-
 def listar_clientes():
-    print("Imprimir clientes")
     clientes = Clientes()
-    try:
-        clientes.listar()
-    except Exception as e:
-        print("Erro: " + str(e))
-        print("Não foi possível listar os clientes !")
+    opcao = 0
+    while opcao != 9:
+        print(f"{' Clientes ':=^30}")
+        try:
+            clientes.listar()
+        except Exception as e:
+            print("Erro: " + str(e))
+            print("Não foi possível listar os clientes !")
 
+        print(f"{'':=^30}\n" +
+              "Escolha uma opção:\n" +
+              "1 - Apagar\n" +
+              "2 - Cadastrar\n"+
+              "0 - Sair")
+
+        opcao = int(input("Digite: "))
+
+        if opcao == 1:
+            deletar_clientes()
+        elif opcao == 2:
+            form_cadastro_cliente()
+        else:
+            break
 
 def form_cadastro_cliente():
     print("Form cadastro clientes")
