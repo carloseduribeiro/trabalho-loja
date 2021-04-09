@@ -58,12 +58,9 @@ class Clientes:
                 dados_banco.writelines(clientes)
 
     def deletar(self):
-        if self.codCliente.isdigit():
-            with open("banco/clientes.txt", "r") as clientes:
-                lines = clientes.readlines()
-            with open("banco/clientes.txt", "w") as clientes:
-                for line in lines:
-                    if line.split(";")[0] != str(self.codCliente):
-                        clientes.write(line)
-        else:
-            raise Exception("Favor digitar um código válido !")
+        with open("banco/clientes.txt", "r") as clientes:
+            lines = clientes.readlines()
+        with open("banco/clientes.txt", "w") as clientes:
+            for line in lines:
+                if line.split(";")[0] != str(self.codCliente):
+                    clientes.write(line)
