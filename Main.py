@@ -6,8 +6,10 @@ from Classes.Clientes import Clientes
 def listar_vendas():
     print("Iimprimir vendas")
 
+
 def form_nova_venda():
     print("Form nova venda")
+
 
 def listar_clientes():
     clientes = Clientes()
@@ -49,6 +51,7 @@ def listar_clientes():
             deletar_clientes()
         else:
             break
+
 
 def alterar_cliente():
     print("Alterar Clientes")
@@ -102,19 +105,20 @@ def listar_produtos():
     opcao = int
     categorias = {}
 
-    # Armazena um dicionario de categorias:
-    with open("banco/categorias.txt", "r") as categorias_banco:
-        for line in categorias_banco:
-            cat = line.strip().split(';')
-            categorias[cat[0]] = cat[1]
-
-    produtos = {}
-    with open("banco/produtos.txt", "r") as dados_banco:
-        for prod_banco in dados_banco:
-            prod = prod_banco.strip().split(';')
-            produtos[prod[0]] = list(prod[1:4])
-
     while opcao != 0:
+
+        # Armazena um dicionario de categorias:
+        with open("banco/categorias.txt", "r") as categorias_banco:
+            for line in categorias_banco:
+                cat = line.strip().split(';')
+                categorias[cat[0]] = cat[1]
+
+        produtos = {}
+        with open("banco/produtos.txt", "r") as dados_banco:
+            for prod_banco in dados_banco:
+                prod = prod_banco.strip().split(';')
+                produtos[prod[0]] = list(prod[1:4])
+
         # Imprime os produtos cadastradas:
         print(f"\n{' PRODUTOS ':=^30}")
 
@@ -128,17 +132,33 @@ def listar_produtos():
         # Imprime o menu:
         print(f"{'':=^30}\n" +
               "Escolha uma opção:\n" +
-              "1 - Cadastrar\n"
-              "2 - Apagar\n" +
-              "3 - Editar\n" +
+              "1 - Cadastrar\n" +
+              "2 - Editar\n" +
+              "3 - Apagar\n" +
               "0 - Sair")
 
         try:
             opcao = int(input("Digite: "))
 
             if opcao == 1:
+                # Exibe o form de cadastro de produtos:
                 form_cadastro_produtos()
+
             elif opcao == 2:
+                # Cadastra uma nova categoria:
+                print(f"\n{' EDITAR PRODUTO ':=^30}")
+                cod_produto = int(input("Insira o código: "))
+                print(f"{'':=^30}")
+
+                if str(cod_produto) not in list(produtos.keys()):
+                    print("Produto não existe! Tente novamente.")
+                else:
+                    nome_produto = input("Insira o nome: ")
+                    preco_produto = float(input("Insira o preço: "))
+                    cod_categoria = int(input("Insira o codigo da categoria: "))
+                    Produtos(cod_produto, nome_produto, preco_produto, cod_categoria).cadastrar()
+
+            elif opcao == 3:
                 try:
                     # Apaga o produto selecionado:
                     id_produto = int(input("Insira o id: "))
@@ -152,21 +172,9 @@ def listar_produtos():
                 except ValueError:
                     print("Id não existe! Tente novamente.")
 
-            elif opcao == 3:
-                # Cadastra uma nova categoria:
-                print(f"\n{' EDITAR PRODUTO ':=^30}")
-                # nome_categoria = input("Insira o nome: ")
-                # print(f"{'':=^30}")
-                #
-                # # Verifica se já existe uma categoria com o mesmo nome:
-                # if nome_categoria not in nomes_categoria:
-                #     Categorias(nome_categoria).salvar()
-                #     print("Categoria cadastrada.")
-                # else:
-                #     print("Categoria NÃO cadastrada!")
-                #     print("Categoria já existe.\n")
 
-            elif opcao < 0 or opcao > 2:
+            elif opcao < 0 or opcao > 3:
+
                 print("Opção não existe! Tente novamente.")
             else:
                 break
@@ -221,8 +229,11 @@ def form_cadastro_produtos():
 
                     # Cadastra o produto no Banco:
                     Produtos(0, nome_produto, preco_produto, categoria_produto).cadastrar()
+                    print("Produto cadastrado")
+                    break
             except ValueError:
                 print("Id não existe! Tente novamente.")
+        break
 
 
 def listar_categorias():
@@ -241,28 +252,14 @@ def listar_categorias():
         # Imprime o menu:
         print(f"{'':=^30}\n" +
               "Escolha uma opção:\n" +
-              "1 - Apagar\n" +
-              "2 - Cadastrar\n" +
-              "3 - Editar\n" +
+              "1 - Cadastrar\n" +
+              "2 - Editar\n" +
+              "3 - Apagar\n" +
               "0 - Sair")
         try:
             opcao = int(input("Digite: "))
 
             if opcao == 1:
-                try:
-                    # Apaga a categoria selecionada:
-                    id_categoria = int(input("Insira o id: "))
-                    print(f"{'':=^30}")
-
-                    if id_categoria in ids:
-                        Categorias('', id_categoria).apagar()
-                        print("Categoria APAGADA!")
-                    else:
-                        print("Id não existe! Tente novamente.")
-                except ValueError:
-                    print("Id não existe! Tente novamente.")
-
-            elif opcao == 2:
                 # Cadastra uma nova categoria:
                 print(f"\n{' NOVA CATEGORIA ':=^30}")
                 nome_categoria = input("Insira o nome: ")
@@ -276,7 +273,7 @@ def listar_categorias():
                     print("Categoria NÃO cadastrada!")
                     print("Categoria já existe.\n")
 
-            elif opcao == 3:
+            elif opcao == 2:
                 # Edita uma categoria existente:
                 print(f"\n{' EDITAR CATEGORIA ':=^30}")
                 try:
@@ -291,6 +288,20 @@ def listar_categorias():
                         print("Id não existe! Tente novamente.")
                 except ValueError:
                     print("Id inserido não existe!")
+
+            elif opcao == 3:
+                try:
+                    # Apaga a categoria selecionada:
+                    id_categoria = int(input("Insira o id: "))
+                    print(f"{'':=^30}")
+
+                    if id_categoria in ids:
+                        Categorias('', id_categoria).apagar()
+                        print("Categoria APAGADA!")
+                    else:
+                        print("Id não existe! Tente novamente.")
+                except ValueError:
+                    print("Id não existe! Tente novamente.")
 
             elif opcao < 0 or opcao > 3:
                 print("Opção não existe! Tente novamente.")
@@ -309,9 +320,9 @@ while menu != 9:
 ============ LOJA ============
 1 - Nova Venda
 2 - Hisórico de Vendas
-3 - Clientes Cadastrados
-4 - Produtos Cadastrados
-5 - Categorias Cadastradas
+3 - Clientes
+4 - Produtos
+5 - Categorias
 0 - Sair
 ==============================""")
     menu = input("Digite opção: ")

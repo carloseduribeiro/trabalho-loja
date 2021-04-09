@@ -8,6 +8,7 @@ class Produtos:
         self.codProduto = codProduto
         self.nomeProduto = nomeProduto
         self.precoProduto = precoProduto
+        self.codCategoria = codCategoria
 
     @staticmethod
     def listar():
@@ -27,7 +28,7 @@ class Produtos:
                 self.codProduto = ultimo_codigo
 
             # Adiciona um novo registro:
-            with open("banco/produtos.txt", "a") as dados_banco:
+            with open("banco/produtos.txt", "a+") as dados_banco:
                 num_linhas = sum(1 for line in open("banco/produtos.txt"))
                 if num_linhas >= 1:
                     dados_banco.writelines(
@@ -48,9 +49,9 @@ class Produtos:
                     cat = line.strip().split(";")
                     if int(cat[0]) == self.codProduto:
                         cat[1] = self.nomeProduto
-                        cat[2] = self.precoProduto
+                        cat[2] = str(self.precoProduto)
                         cat[3] = str(self.codCategoria)
-                    cat = ';'.join(cat)
+                    cat = str(';'.join(cat)) + '\n'
                     produtos.append(cat)
 
                 dados_banco.writelines(produtos)
