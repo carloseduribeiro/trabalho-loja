@@ -82,23 +82,54 @@ def listar_produtos():
 
 
 def form_cadastro_produtos():
-    produtos = Produtos()
-    listaCategorias = Categorias.listar()
-    try:
-        print(listaCategorias)
-        print("Favor Selecionar uma categoria: ")
-        produtos.codCategoria = input("Digite o código da categoria: ")
-        for line in listaCategorias:
-            if produtos.codCategoria in str(line).split(",")[0]:
-                produtos.codProduto = input("Digite o codigo do produto: ")
-                produtos.nomeProduto = input("Digite nome produto: ")
-                produtos.precoProduto = input("Digite preço produto: ")
-                produtos.cadastrar()
-            else:
-                raise Exception("Código categoria nao encontrado !")
-    except Exception as e:
-        print("Erro: " + str(e))
-        print("Produto não cadastrado !")
+    opcao = 0
+    ids_categoria = []
+    while opcao != 9:
+        # Imprime as categorias cadastradas:
+        print(f"\n{' CADASTRO DE PRODUTO ':=^30}")
+        print("Selecione uma categoria:")
+        print(f"{'Id:':<4}\t{'Nome:'}")
+        for cat in Categorias.listar():
+            print(f"{cat[0]:<4}\t{cat[1]}")
+            ids_categoria.append(int(cat[0]))
+
+        id_categoria = int
+        while id_categoria != 0:
+            try:
+                print(f"{'':-^30}")
+                print("Digite 0 para cancelar...")
+                # Apaga a categoria selecionada:
+                id_categoria = int(input("Insira o id: "))
+
+                if id_categoria == 0:
+                    break
+
+                print(f"{'':=^30}")
+
+                if id_categoria not in ids_categoria:
+                    print("Id não existe! Tente novamente.")
+                else:
+                    # Cadastra um novo produto:
+                    categoria_produto = ids_categoria
+
+                    while True:
+                        nome_produto = input("Digite nome produto: ")
+                        if len(nome_produto) < 2:
+                            print("O nome deve ter pelo menos 3 caracteres.")
+                        else:
+                            break
+
+                    while True:
+                        try:
+                            preco_produto = float(input("Digite preço produto: "))
+                            break
+                        except ValueError:
+                            print("Valor inserido inválido! Tente novamente.")
+
+                    # Cadastra o produto no Banco:
+                    Produtos(0, nome_produto, preco_produto, categoria_produto).cadastrar()
+            except ValueError:
+                print("Id não existe! Tente novamente.")
 
 
 def listar_categorias():
@@ -132,10 +163,8 @@ def listar_categorias():
                     print(f"{'':=^30}")
 
                     if id_categoria in ids:
-                        if Categorias('', id_categoria).apagar():
-                            print("Categoria APAGADA com sucesso!")
-                        else:
-                            print("Categoria NÃO apagada.")
+                        Categorias('', id_categoria).apagar()
+                        print("Categoria APAGADA!")
                     else:
                         print("Id não existe! Tente novamente.")
                 except ValueError:
