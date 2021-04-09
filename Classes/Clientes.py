@@ -2,12 +2,14 @@ class Clientes:
 
     codCliente = int
     nomeCliente = str
+    senhaCliente = str
     CPFCliente = str
     idadeCliente = int
 
-    def __init__(self, codCliente=0, nomeCliente="", CPFCliente="", idadeCliente=0):
+    def __init__(self, codCliente=0, nomeCliente="", senhaCliente="", CPFCliente="", idadeCliente=0):
         self.codCliente = codCliente
         self.nomeCliente = nomeCliente
+        self.senhaCliente = senhaCliente
         self.CPFCliente = CPFCliente
         self.idadeCliente = idadeCliente
 
@@ -32,10 +34,9 @@ class Clientes:
             with open("banco/clientes.txt", "a") as dados_banco:
                 num_linhas = sum(1 for line in open("banco/clientes.txt"))
                 if num_linhas >= 1:
-                    dados_banco.writelines(f"\n{self.codCliente};{self.nomeCliente};{self.CPFCliente};{self.idadeCliente}")
+                    dados_banco.writelines(f"\n{self.codCliente};{self.nomeCliente};{self.senhaCliente};{self.CPFCliente};{self.idadeCliente}")
                 else:
-                    dados_banco.writelines(f"{self.codCliente};{self.nomeCliente};{self.CPFCliente};{self.idadeCliente}")
-
+                    dados_banco.writelines(f"{self.codCliente};{self.nomeCliente};{self.senhaCliente};{self.CPFCliente};{self.idadeCliente}")
         else:
             clientes = []
             # Salva os registros cadastrados em uma lista:
@@ -48,8 +49,9 @@ class Clientes:
                     cat = line.strip().split(";")
                     if int(cat[0]) == self.codCliente:
                         cat[1] = self.nomeCliente
-                        cat[2] = self.CPFCliente
-                        cat[3] = str(self.idadeCliente)
+                        cat[2] = self.senhaCliente
+                        cat[3] = self.CPFCliente
+                        cat[4] = str(self.idadeCliente)
                     cat = ';'.join(cat)
                     clientes.append(cat)
 
