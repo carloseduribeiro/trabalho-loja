@@ -3,4 +3,4 @@
 3;Carnes
 4;Laticineos
 5;Padaria
-6:Limpeza
+6;Limpeza

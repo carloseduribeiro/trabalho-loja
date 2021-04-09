@@ -72,19 +72,82 @@ def deletar_produtos():
 
 
 def listar_produtos():
-    print("Imprimir Produtos")
-    produtos = Produtos()
-    try:
-        produtos.listar()
-    except Exception as e:
-        print("Erro: " + str(e))
-        print("Não foi possível listar!")
+    opcao = int
+    categorias = {}
+
+    # Armazena um dicionario de categorias:
+    with open("banco/categorias.txt", "r") as categorias_banco:
+        for line in categorias_banco:
+            cat = line.strip().split(';')
+            categorias[cat[0]] = cat[1]
+
+    produtos = {}
+    with open("banco/produtos.txt", "r") as dados_banco:
+        for prod_banco in dados_banco:
+            prod = prod_banco.strip().split(';')
+            produtos[prod[0]] = list(prod[1:4])
+
+    while opcao != 0:
+        # Imprime os produtos cadastradas:
+        print(f"\n{' PRODUTOS ':=^30}")
+
+        print(f"{'Id:':<4} {'Nome:':<25} {'Preco:':<15} {'Categoria:':<15}")
+        for cod, prod in produtos.items():
+            if len(prod[2]) == 0:
+                print(f"{cod:<4} {prod[0]:<25} R$ {prod[1]:<10} {'Sem categoria':<15}")
+            else:
+                print(f"{cod:<4} {prod[0]:<25} R$ {prod[1]:<10} {categorias[prod[2]]:<15}")
+
+        # Imprime o menu:
+        print(f"{'':=^30}\n" +
+              "Escolha uma opção:\n" +
+              "1 - Apagar\n" +
+              "2 - Editar\n" +
+              "0 - Sair")
+
+        try:
+            opcao = int(input("Digite: "))
+
+            if opcao == 1:
+                try:
+                    # Apaga o produto selecionado:
+                    id_produto = int(input("Insira o id: "))
+                    print(f"{'':=^30}")
+
+                    if str(id_produto) in list(produtos.keys()):
+                        # Produtos('', id_produto).deletar()
+                        print("Produto apagado (REVISAR)")
+                    else:
+                        print("Id não existe! Tente novamente.")
+                except ValueError:
+                    print("Id não existe! Tente novamente.")
+
+            elif opcao == 2:
+                # Cadastra uma nova categoria:
+                print(f"\n{' EDITAR PRODUTO ':=^30}")
+                # nome_categoria = input("Insira o nome: ")
+                # print(f"{'':=^30}")
+                #
+                # # Verifica se já existe uma categoria com o mesmo nome:
+                # if nome_categoria not in nomes_categoria:
+                #     Categorias(nome_categoria).salvar()
+                #     print("Categoria cadastrada.")
+                # else:
+                #     print("Categoria NÃO cadastrada!")
+                #     print("Categoria já existe.\n")
+
+            elif opcao < 0 or opcao > 2:
+                print("Opção não existe! Tente novamente.")
+            else:
+                break
+        except ValueError:
+            print("Opção não existe! Tente novamente.")
 
 
 def form_cadastro_produtos():
-    opcao = 0
+    opcao = int
     ids_categoria = []
-    while opcao != 9:
+    while opcao != 0:
         # Imprime as categorias cadastradas:
         print(f"\n{' CADASTRO DE PRODUTO ':=^30}")
         print("Selecione uma categoria:")
@@ -102,6 +165,7 @@ def form_cadastro_produtos():
                 id_categoria = int(input("Insira o id: "))
 
                 if id_categoria == 0:
+                    opcao = 0
                     break
 
                 print(f"{'':=^30}")
@@ -215,8 +279,8 @@ menu = 0
 while menu != 9:
     print("""
 ============ LOJA ============
-1 - Hisórico de Vendas
-2 - Nova Venda
+1 - Nova Venda
+2 - Hisórico de Vendas
 3 - Clientes Cadastrados
 4 - Cadastrar Cliente
 5 - Produtos Cadastrados
@@ -230,9 +294,9 @@ while menu != 9:
         menu = int(menu)
 
         if menu == 1:
-            listar_vendas()
-        elif menu == 2:
             form_nova_venda()
+        elif menu == 2:
+            listar_vendas()
         elif menu == 3:
             listar_clientes()
         elif menu == 4:
