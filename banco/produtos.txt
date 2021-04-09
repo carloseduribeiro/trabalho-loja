@@ -1,2 +1,6 @@
-1, Banana, 1, 3 R$
-3, Alface, 2, 6 R$
+1;Banana;1,22;1
+1;Maca;5,99;2
+3;Alface;1,25;1
+4;Pao frances;5
+5;Costela Bovina;30,66;3
+6;Picanha Angus Premium;129,90;3

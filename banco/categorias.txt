@@ -1,2 +1,6 @@
 1;Frutas
 2;Verduras
+3;Carnes
+4;Laticineos
+5;Padaria
+6:Limpeza
