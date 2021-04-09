@@ -1,5 +1,3 @@
-# coding: latin-1
-
 class Categorias:
 
     codigo = int
@@ -22,7 +20,7 @@ class Categorias:
 
             # Adiciona um novo registro:
             with open("banco/categorias.txt", "a+") as dados_banco:
-                num_linhas = sum(1 for line in open("../banco/categorias.txt"))
+                num_linhas = sum(1 for line in open("banco/categorias.txt"))
                 if num_linhas >= 1:
                     dados_banco.writelines(f"\n{self.codigo};{self.nome}")
                 else:
@@ -65,9 +63,17 @@ class Categorias:
 
             # Salva os dados no banco:
             with open("banco/categorias.txt", "w") as dados_banco:
-                for categoria in categorias_banco:
-                    cat = categoria.strip().split(";")
+                for i in range(len(categorias_banco)):
+                    cat = categorias_banco[i].strip().split(";")
                     if int(cat[0]) != self.codigo:
-                        cat = str(';'.join(cat)) + "\n"
+                        cat = str(';'.join(cat))
+                        cat += "\n" if i != len(categorias_banco)-1 else ''
                         categorias.append(cat)
                 dados_banco.writelines(categorias)
+
+            # Salva os produtos cadastrados numa lista:
+            # with open("banco/produtos.txt", "r") as dados_banco:
+            #     produtos_banco = dados_banco.readlines()
+            #
+            # with open("banco/produtos.txt", "w") as dados_banco:
+            #     for produto
