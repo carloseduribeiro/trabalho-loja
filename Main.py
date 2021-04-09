@@ -1,14 +1,32 @@
 from Classes.Produtos import Produtos
 from Classes.Categorias import Categorias
 from Classes.Clientes import Clientes
-
+from Classes.Carrinho import Carrinho
 
 def listar_vendas():
     print("Iimprimir vendas")
 
 
 def form_nova_venda():
-    print("Form nova venda")
+    opcao = int
+    while opcao != 0:
+        print(f"{' NOVA VENDA ':=^30}")
+        cpf_cliente = input("Insira o CPF do cliente: ")
+
+        with open("banco/clientes.txt", "r") as dados_banco:
+            lines = dados_banco.readlines()
+            for line in lines:
+                cliente = line.strip().split(";")
+            if cliente[3] == cpf_cliente:
+                listar_produtos()
+                produto = input("Escolha produto: ")
+                inserir_produtos(produto)
+
+def inserir_produtos(produto):
+    carrinho = Carrinho()
+    carrinho.codigo_produto = produto
+    carrinho.quantidade = str(input("Digite uma quantidade: "))
+    carrinho.salvar()
 
 
 def listar_clientes():
@@ -100,34 +118,38 @@ def deletar_produtos():
         print("Erro: " + str(e))
         print("Não foi possível excluir o produto!")
 
-
-def listar_produtos():
-    opcao = int
+def listar_produtos() -> dict:
     categorias = {}
 
+    # Armazena um dicionario de categorias:
+    with open("banco/categorias.txt", "r") as categorias_banco:
+        for line in categorias_banco:
+            cat = line.strip().split(';')
+            categorias[cat[0]] = cat[1]
+
+    produtos = {}
+    with open("banco/produtos.txt", "r") as dados_banco:
+        for prod_banco in dados_banco:
+            prod = prod_banco.strip().split(';')
+            produtos[prod[0]] = list(prod[1:4])
+
+    # Imprime os produtos cadastradas:
+    print(f"\n{' PRODUTOS ':=^30}")
+
+    print(f"{'Id:':<4} {'Nome:':<25} {'Preco:':<15} {'Categoria:':<15}")
+    for cod, prod in produtos.items():
+        if len(prod[2]) == 0:
+            print(f"{cod:<4} {prod[0]:<25} R$ {prod[1]:<10} {'Sem categoria':<15}")
+        else:
+            print(f"{cod:<4} {prod[0]:<25} R$ {prod[1]:<10} {categorias[prod[2]]:<15}")
+
+    return produtos
+
+def menu_produtos():
+    opcao = int
     while opcao != 0:
 
-        # Armazena um dicionario de categorias:
-        with open("banco/categorias.txt", "r") as categorias_banco:
-            for line in categorias_banco:
-                cat = line.strip().split(';')
-                categorias[cat[0]] = cat[1]
-
-        produtos = {}
-        with open("banco/produtos.txt", "r") as dados_banco:
-            for prod_banco in dados_banco:
-                prod = prod_banco.strip().split(';')
-                produtos[prod[0]] = list(prod[1:4])
-
-        # Imprime os produtos cadastradas:
-        print(f"\n{' PRODUTOS ':=^30}")
-
-        print(f"{'Id:':<4} {'Nome:':<25} {'Preco:':<15} {'Categoria:':<15}")
-        for cod, prod in produtos.items():
-            if len(prod[2]) == 0:
-                print(f"{cod:<4} {prod[0]:<25} R$ {prod[1]:<10} {'Sem categoria':<15}")
-            else:
-                print(f"{cod:<4} {prod[0]:<25} R$ {prod[1]:<10} {categorias[prod[2]]:<15}")
+        produtos = listar_produtos()
 
         # Imprime o menu:
         print(f"{'':=^30}\n" +
@@ -337,7 +359,7 @@ while menu != 9:
         elif menu == 3:
             listar_clientes()
         elif menu == 4:
-            listar_produtos()
+            menu_produtos()
         elif menu == 7:
             listar_categorias()
         elif menu < 0 or menu > 7:
