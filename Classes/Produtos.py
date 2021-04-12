@@ -26,35 +26,39 @@ class Produtos:
                     ultimo_codigo = cat.strip().split(";")[0]
                 ultimo_codigo = int(ultimo_codigo) + 1
                 self.codProduto = ultimo_codigo
+                num_linhas = sum(1 for line in open("banco/produtos.txt"))
 
             # Adiciona um novo registro:
             with open("banco/produtos.txt", "a+") as dados_banco:
-                num_linhas = sum(1 for line in open("banco/produtos.txt"))
                 if num_linhas >= 1:
-                    dados_banco.writelines(
-                        f"\n{self.codProduto};{self.nomeProduto};{self.precoProduto};{self.codCategoria}")
+                    prod = f"\n{self.codProduto};{self.nomeProduto};{self.precoProduto};{self.codCategoria}"
                 else:
-                    dados_banco.writelines(
-                        f"{self.codProduto};{self.nomeProduto};{self.precoProduto};{self.codCategoria}")
+                    prod = f"{self.codProduto};{self.nomeProduto};{self.precoProduto};{self.codCategoria}"
+
+                dados_banco.write(prod)
 
         else:
             produtos = []
             # Salva os registros cadastrados em uma lista:
             with open("banco/produtos.txt", "r") as dados_banco:
                 produtos_banco = dados_banco.readlines()
+                num_linhas = sum(1 for line in open("banco/categorias.txt"))
 
             # Salva os dados no banco:
             with open("banco/produtos.txt", "w") as dados_banco:
-                for line in produtos_banco:
-                    cat = line.strip().split(";")
-                    if int(cat[0]) == self.codProduto:
-                        cat[1] = self.nomeProduto
-                        cat[2] = str(self.precoProduto)
-                        cat[3] = str(self.codCategoria)
-                    cat = str(';'.join(cat)) + '\n'
-                    produtos.append(cat)
+                for line in range(len(produtos_banco)):
+                    prod = produtos_banco[line].strip().split(";")
+                    if int(prod[0]) == self.codProduto:
+                        prod[1] = self.nomeProduto
+                        prod[2] = str(self.precoProduto)
+                        prod[3] = str(self.codCategoria)
 
-                dados_banco.writelines(produtos)
+                    if num_linhas >= 1 and line != 0:
+                        prod = '\n' + ';'.join(prod)
+                    else:
+                        prod = ';'.join(prod)
+
+                    dados_banco.write(prod)
 
     def deletar(self):
         with open("banco/produtos.txt", "r") as produtos:
