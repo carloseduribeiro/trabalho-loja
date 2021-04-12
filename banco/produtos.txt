@@ -1,6 +1,7 @@
-1;Banana;1,22;1
-1;Maca;5,99;2
-3;Alface;1,25;1
-4;Pao frances;5;
-5;Costela Bovina;30,66;3
-6;Picanha Angus Premium;129,90;3
+1;Banana;1.5;1
+2;Costela Bovina;34.0;3
+3;Iogurte;8.0;4
+4;Sabão em Pó;12.9;6
+5;Pão Frances;8.8;5
+6;Pastel;4.5;5
+7;Pano de Chão;9.9;6
