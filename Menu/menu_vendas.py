@@ -7,14 +7,13 @@ def listar_vendas():
 
 
 def form_nova_venda():
-    opcao = int
     cliente_existe = False
     cpf_cliente = 99
     produtos = {}
 
     while cpf_cliente != '0':
         print(f"{' NOVA VENDA ':=^30}")
-        print("Digite 0 para sair.")
+        print("Digite 0 para VOLTAR.")
         cpf_cliente = input("Insira o CPF do cliente: ")
 
         with open("banco/clientes.txt", "r") as dados_banco:
@@ -31,6 +30,8 @@ def form_nova_venda():
 
         if cliente_existe:
             opcao = 99
+            produtos = {}
+
             while opcao != 0:
                 print("1 - Adicionar Produtos\n"
                       "2 - Remover Produtos\n"
@@ -43,14 +44,14 @@ def form_nova_venda():
                     while id_produto != 0:
                         produtos = listar_produtos()
                         print(f"{'':=^30}")
-                        print("Digite 0 para sair.")
+                        print("Digite 0 para VOLTAR.")
                         cod_produto = input("Escolha o produto: ")
                         if cod_produto == '0':
                             break
                         if cod_produto in produtos.keys():
                             qtd_produto = int(input("Insira a quantidade: "))
 
-                            venda.adicionar_produto(cod_produto, qtd_produto, produtos[cod_produto][1])
+                            venda.adicionar_produto(cod_produto, qtd_produto, produtos[cod_produto][1], produtos[cod_produto][0])
                         else:
                             print("Produto não existe! Tente novamente.")
 
@@ -59,15 +60,15 @@ def form_nova_venda():
                     while cod_produto != 0:
                         print(f"{' CARRINHO ':=^30}")
                         if len(venda.listar_produtos()) != 0:
-                            print(f"{'Codigo':<6}\t{'Quantidade':<10}\t{'Valor':<10}")
+                            print(f"{'Codigo':<6}\t{'Nome:':<20}\t{'Qtd.:':<5}\t{'Valor':<10}")
                             for k, v in venda.listar_produtos().items():
                                 vlr_total = float(v[1]) * float(v[2])
-                                print(f"{k:<6}\t{v[1]:<10}\tR$ {str(vlr_total):<10}")
+                                print(f"{k:<6}\t{v[3]:<20}\t{v[1]:<5}\tR$ {str(vlr_total):<10}")
                         else:
                             print("Nenhum produto foi adicionado ao carrinho.")
                         print(f"{'':=^30}")
 
-                        print("Digite 0 para sair.")
+                        print("Digite 0 para VOLTAR.")
                         cod_produto = input("Escolha o produto: ")
 
                         if cod_produto == '0':
@@ -86,26 +87,29 @@ def form_nova_venda():
                     menu = 99
                     while menu != 0:
                         print(f"{' FINALIZAR VENDA ':=^30}")
-                        print(venda.listar_produtos())
-
                         if len(venda.listar_produtos()) != 0:
-                            print(f"{'Cod.:':<6}{'nome':<20}{'Qtd.:':<10}{'Valor Un.:':<15}{'Total:':<10}")
+                            valor_total_nota = 0
+                            print(f"{'Cod.:':<5}\t{'Nome:':<20}\t{'Qtd.:':<5}\t{'Valor Un.:':<15}\t{'Total:':<15}")
                             for k, v in venda.listar_produtos().items():
                                 vlr_total = float(v[1]) * float(v[2])
-                                print(f"{k:<6}{v[0]:<20}{v[1]:<10}{'R$ ' + v[2]:<15}{'R$ ' + str(vlr_total):<10}")
-
+                                valor_total_nota += vlr_total
+                                print(
+                                    f"{k:<5}\t{v[3]:<20}\t{v[1]:<5}\t{'R$ ' + v[2]:<15}\t{'R$ ' + str(vlr_total):<15}")
+                            print(f"{'':=^30}")
+                            print(f"Total a pagar: R${valor_total_nota}")
 
                         else:
                             print("Nenhum produto foi adicionado ao carrinho.")
                             print(f"{'':=^30}")
                             break
-                        print(f"{'':=^30}")
                         print("Escolha uma fomra de pagamento:\n"
                               "1 - Cartão\n"
-                              "2 - Dinheiro\n")
+                              "2 - Dinheiro\n"
+                              "3 - Voltar\n")
                         menu = input("Digite: ")
 
                 elif opcao == '0':
+                    cpf_cliente = '0'
                     break
                 else:
                     print("Opção não existe! Tente novamente.")
