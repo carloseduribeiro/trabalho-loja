@@ -17,8 +17,8 @@ class Vendas:
             ultimo_codigo = int(ultimo_codigo) + 1
             self.codigo_venda = ultimo_codigo
 
-    def adicionar_produto(self, codigo_produto, quantidade, vlr_unitario):
-        self.produtos[codigo_produto] = [self.codigo_venda, quantidade, vlr_unitario]
+    def adicionar_produto(self, codigo_produto, quantidade, vlr_unitario, nome):
+        self.produtos[codigo_produto] = [self.codigo_venda, quantidade, vlr_unitario, nome]
 
     def remover_produtos(self, codigo_produto, quantidade):
         if quantidade < self.produtos[codigo_produto][1]:
